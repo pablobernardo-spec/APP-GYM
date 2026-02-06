@@ -44,7 +44,7 @@
         /* CALENDARIO */
         .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 10px; }
         .calendar-header { text-align: center; font-size: 0.6rem; font-weight: 800; color: #93c5fd; text-transform: uppercase; padding-bottom: 5px; }
-        .day-cell { aspect-ratio: 1/1.3; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; display: flex; flex-direction: column; align-items: center; padding: 4px 2px; cursor: pointer; overflow: hidden; }
+        .day-cell { aspect-ratio: 1/1.3; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; position: relative; display: flex; flex-direction: column; align-items: center; padding: 4px 2px; cursor: pointer; overflow: hidden; }
         .day-cell.today { border: 2px solid var(--primary); background: #eff6ff; }
         .day-cell .num { font-weight: 800; color: #64748b; font-size: 0.7rem; margin-bottom: 2px; }
         .activity-indicator { width: 100%; font-size: 0.45rem; font-weight: 800; text-align: center; border-radius: 2px; margin-bottom: 1px; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 1px 0; }
@@ -166,32 +166,18 @@
             🚨 CARGA 8x8 ACTIVA: Consume +150g de Arroz y un Huevo extra para sostener la intensidad.
         </div>
         <div class="card">
-            <h2 class="card-title">🔍 Buscador Inteligente</h2>
+            <h2 class="card-title">🔍 Buscador Nutricional Masivo</h2>
             <div style="position:relative">
-                <input type="text" class="search-input" id="food-search" placeholder="Frutas, Ensaladas, Carnes, Fast Food...">
+                <input type="text" class="search-input" id="food-search" placeholder="Frutas, Verduras, Pastas, Carnes, Fast Food...">
                 <div id="results" class="results-list"></div>
             </div>
             
             <div id="selected-ui" style="display:none; margin-top:15px; background:#f1f5f9; padding:15px; border-radius:12px; border:1px solid var(--border)">
                 <h3 id="si-name" style="font-size:0.9rem; color:var(--primary); margin-bottom:10px"></h3>
                 
-                <!-- Opciones Running -->
                 <div id="ui-running" style="display:none;" class="config-grid">
                     <div class="input-group"><label>KM Corridos</label><input type="number" id="run-km" placeholder="5" oninput="calcItem()"></div>
                     <div class="input-group"><label>Kcal Manual</label><input type="number" id="run-kcal" placeholder="400" oninput="calcItem()"></div>
-                </div>
-
-                <!-- Opciones Fútbol -->
-                <div id="ui-futbol" style="display:none;" class="config-grid">
-                    <div class="input-group"><label>Minutos</label><input type="number" id="foot-min" value="60" oninput="calcItem()"></div>
-                    <div class="input-group">
-                        <label>Cancha</label>
-                        <select id="foot-pitch" onchange="calcItem()">
-                            <option value="9">Fútbol 9</option>
-                            <option value="11">Fútbol 11</option>
-                            <option value="5">Fútbol 5</option>
-                        </select>
-                    </div>
                 </div>
 
                 <div id="ui-std" class="config-grid">
@@ -215,47 +201,109 @@
 </div>
 
 <script>
-    // BASE DE DATOS MASIVA (ELITE NUTRITION)
+    // BASE DE DATOS MASIVA (EXPANDIDA)
     const db = [
-        // FRUTAS
+        // --- FRUTAS ---
         { n: "Banana", c: 89, p: 1.1, cho: 22.8, f: 0.3, type: 'food', m: 'unid' },
         { n: "Manzana", c: 52, p: 0.3, cho: 13.8, f: 0.2, type: 'food', m: 'unid' },
+        { n: "Pera", c: 57, p: 0.4, cho: 15.2, f: 0.1, type: 'food', m: 'unid' },
         { n: "Naranja", c: 47, p: 0.9, cho: 11.8, f: 0.1, type: 'food', m: 'unid' },
+        { n: "Durazno", c: 39, p: 0.9, cho: 9.5, f: 0.3, type: 'food', m: 'unid' },
+        { n: "Ciruela", c: 46, p: 0.7, cho: 11.4, f: 0.3, type: 'food', m: 'unid' },
+        { n: "Uva", c: 67, p: 0.6, cho: 17, f: 0.4, type: 'food', m: '100g' },
+        { n: "Sandía", c: 30, p: 0.6, cho: 7.6, f: 0.2, type: 'food', m: '100g' },
+        { n: "Melón", c: 34, p: 0.8, cho: 8.2, f: 0.2, type: 'food', m: '100g' },
+        { n: "Kiwi", c: 61, p: 1.1, cho: 14.7, f: 0.5, type: 'food', m: 'unid' },
+        { n: "Piña/Ananá", c: 50, p: 0.5, cho: 13.1, f: 0.1, type: 'food', m: '100g' },
+        { n: "Mango", c: 60, p: 0.8, cho: 15, f: 0.4, type: 'food', m: '100g' },
         { n: "Frutillas", c: 32, p: 0.7, cho: 7.7, f: 0.3, type: 'food', m: '100g' },
         { n: "Arándanos", c: 57, p: 0.7, cho: 14.5, f: 0.3, type: 'food', m: '100g' },
-        { n: "Pera", c: 57, p: 0.4, cho: 15.2, f: 0.1, type: 'food', m: 'unid' },
-        
-        // BÁSICOS
+        { n: "Limón", c: 29, p: 1.1, cho: 9.3, f: 0.3, type: 'food', m: 'unid' },
+        { n: "Coco (Carne)", c: 354, p: 3.3, cho: 15.2, f: 33, type: 'food', m: '100g' },
+
+        // --- VERDURAS ---
+        { n: "Espinaca (Cruda)", c: 23, p: 2.9, cho: 3.6, f: 0.4, type: 'food', m: '100g' },
+        { n: "Acelga (Cocida)", c: 20, p: 1.9, cho: 3.7, f: 0.1, type: 'food', m: '100g' },
+        { n: "Lechuga", c: 15, p: 1.4, cho: 2.9, f: 0.2, type: 'food', m: '100g' },
+        { n: "Tomate", c: 18, p: 0.9, cho: 3.9, f: 0.2, type: 'food', m: '100g' },
+        { n: "Pepino", c: 15, p: 0.7, cho: 3.6, f: 0.1, type: 'food', m: '100g' },
+        { n: "Morrón Rojo/Verde", c: 31, p: 1, cho: 6, f: 0.3, type: 'food', m: '100g' },
+        { n: "Cebolla", c: 40, p: 1.1, cho: 9.3, f: 0.1, type: 'food', m: '100g' },
+        { n: "Ajo", c: 149, p: 6.4, cho: 33, f: 0.5, type: 'food', m: '100g' },
+        { n: "Zanahoria", c: 41, p: 0.9, cho: 9.6, f: 0.2, type: 'food', m: '100g' },
+        { n: "Brócoli (Cocido)", c: 35, p: 2.4, cho: 7.2, f: 0.4, type: 'food', m: '100g' },
+        { n: "Coliflor", c: 25, p: 1.9, cho: 5, f: 0.3, type: 'food', m: '100g' },
+        { n: "Zapallito/Zucchini", c: 17, p: 1.2, cho: 3.1, f: 0.3, type: 'food', m: '100g' },
+        { n: "Berenjena", c: 25, p: 1, cho: 6, f: 0.2, type: 'food', m: '100g' },
+        { n: "Calabaza/Zapallo", c: 26, p: 1, cho: 6.5, f: 0.1, type: 'food', m: '100g' },
+        { n: "Batata/Camote", c: 86, p: 1.6, cho: 20, f: 0.1, type: 'food', m: '100g' },
+        { n: "Papa (Cocida)", c: 77, p: 2, cho: 17, f: 0.1, type: 'food', m: '100g' },
+        { n: "Choclo/Maíz", c: 86, p: 3.2, cho: 19, f: 1.2, type: 'food', m: '100g' },
+        { n: "Champiñones", c: 22, p: 3.1, cho: 3.3, f: 0.3, type: 'food', m: '100g' },
+
+        // --- PASTAS Y CEREALES (COCIDOS) ---
+        { n: "Espaguetis/Fideos", c: 158, p: 5.8, cho: 31, f: 0.9, type: 'food', m: '100g' },
+        { n: "Macarrones/Penne", c: 157, p: 5.8, cho: 30, f: 0.9, type: 'food', m: '100g' },
+        { n: "Fideos Integrales", c: 124, p: 5.3, cho: 26, f: 0.5, type: 'food', m: '100g' },
+        { n: "Ñoquis de Papa", c: 150, p: 3.5, cho: 32, f: 0.5, type: 'food', m: '100g' },
+        { n: "Ravioles de Ricota", c: 200, p: 8, cho: 30, f: 5, type: 'food', m: '100g' },
+        { n: "Lasaña de Carne", c: 165, p: 9, cho: 15, f: 8, type: 'food', m: '100g' },
+        { n: "Arroz Blanco", c: 130, p: 2.7, cho: 28, f: 0.3, type: 'food', m: '100g' },
+        { n: "Arroz Integral", c: 111, p: 2.6, cho: 23, f: 0.9, type: 'food', m: '100g' },
+        { n: "Quinoa", c: 120, p: 4.4, cho: 21, f: 1.9, type: 'food', m: '100g' },
+        { n: "Cuscús", c: 112, p: 3.8, cho: 23, f: 0.2, type: 'food', m: '100g' },
+        { n: "Avena (Hojuelas)", c: 389, p: 16.9, cho: 66, f: 6.9, type: 'food', m: '100g' },
+
+        // --- PROTEÍNAS (PESO COCIDO) ---
+        { n: "Pechuga Pollo", c: 165, p: 31, cho: 0, f: 3.6, type: 'food', m: '100g' },
+        { n: "Muslo de Pollo", c: 209, p: 26, cho: 0, f: 11, type: 'food', m: '100g' },
+        { n: "Carne Vacuna Magra", c: 250, p: 26, cho: 0, f: 15, type: 'food', m: '100g' },
+        { n: "Carne Picada Magra", c: 215, p: 24, cho: 0, f: 13, type: 'food', m: '100g' },
+        { n: "Cerdo (Solomillo)", c: 143, p: 26, cho: 0, f: 3.5, type: 'food', m: '100g' },
+        { n: "Salmón", c: 208, p: 20, cho: 0, f: 13, type: 'food', m: '100g' },
+        { n: "Merluza/Pescado Blanco", c: 95, p: 20, cho: 0, f: 1.5, type: 'food', m: '100g' },
+        { n: "Atún al Natural (Lata)", c: 116, p: 26, cho: 0, f: 1, type: 'food', m: 'unid' },
         { n: "Huevo Entero", c: 155, p: 13, cho: 1.1, f: 11, type: 'food', m: 'unid' },
         { n: "Clara de Huevo", c: 52, p: 11, cho: 0.7, f: 0.2, type: 'food', m: '100g' },
-        
-        // ENSALADAS REQUERIDAS
-        { n: "Ensalada Lechuga y Tomate", c: 25, p: 1.2, cho: 5, f: 0.2, type: 'food', m: 'porción' },
-        { n: "Ensalada Repollo, Zanahoria, Huevo y Atún", c: 280, p: 24, cho: 12, f: 15, type: 'food', m: 'bowl' },
-        { n: "Ensalada Lentejas, Huevo, Atún y Queso", c: 450, p: 35, cho: 42, f: 18, type: 'food', m: 'bowl' },
+        { n: "Tofu", c: 76, p: 8, cho: 1.9, f: 4.8, type: 'food', m: '100g' },
 
-        // PROTEÍNAS (PESO COCIDO)
-        { n: "Pechuga Pollo (Cocida)", c: 165, p: 31, cho: 0, f: 3.6, type: 'food', m: '100g' },
-        { n: "Carne Vacuna Magra (Cocida)", c: 250, p: 26, cho: 0, f: 15, type: 'food', m: '100g' },
-        { n: "Merluza/Pescado Blanco (Cocido)", c: 95, p: 20, cho: 0, f: 1.5, type: 'food', m: '100g' },
-        { n: "Atún al Natural (Lata)", c: 116, p: 26, cho: 0, f: 1, type: 'food', m: 'unid' },
+        // --- LEGUMBRES (COCIDAS) ---
+        { n: "Lentejas", c: 116, p: 9, cho: 20, f: 0.4, type: 'food', m: '100g' },
+        { n: "Garbanzos", c: 164, p: 8.9, cho: 27, f: 2.6, type: 'food', m: '100g' },
+        { n: "Porotos/Frijoles", c: 139, p: 9.7, cho: 25, f: 0.5, type: 'food', m: '100g' },
+        { n: "Arvejas/Guisantes", c: 81, p: 5.4, cho: 14, f: 0.4, type: 'food', m: '100g' },
 
-        // LÁCTEOS Y LEGUMBRES
+        // --- LÁCTEOS ---
+        { n: "Leche Skim (Descremada)", c: 35, p: 3.4, cho: 5, f: 0.1, type: 'food', m: '100ml' },
+        { n: "Leche Entera", c: 61, p: 3.2, cho: 4.8, f: 3.3, type: 'food', m: '100ml' },
         { n: "Yogur Griego Nat.", c: 115, p: 10, cho: 4, f: 6, type: 'food', m: '100g' },
-        { n: "Leche Desnatada", c: 35, p: 3.4, cho: 5, f: 0.1, type: 'food', m: '100ml' },
-        { n: "Queso Tybo/Dambo", c: 350, p: 25, cho: 1, f: 27, type: 'food', m: '100g' },
-        { n: "Lentejas (Cocidas)", c: 116, p: 9, cho: 20, f: 0.4, type: 'food', m: '100g' },
-        { n: "Arroz Blanco (Cocido)", c: 130, p: 2.7, cho: 28, f: 0.3, type: 'food', m: '100g' },
+        { n: "Queso Dambo/Tybo", c: 350, p: 25, cho: 1, f: 27, type: 'food', m: '100g' },
+        { n: "Queso Cottage", c: 98, p: 11, cho: 3.4, f: 4.3, type: 'food', m: '100g' },
+        { n: "Queso Untable Skim", c: 100, p: 10, cho: 4, f: 3, type: 'food', m: '100g' },
 
-        // FAST FOOD / TABLAS
+        // --- ENSALADAS COMBINADAS (BOWL) ---
+        { n: "Ensalada Lechuga y Tomate", c: 25, p: 1.2, cho: 5, f: 0.2, type: 'food', m: 'bowl' },
+        { n: "Ensalada Repollo, Zanahoria, Huevo, Atún", c: 280, p: 24, cho: 12, f: 15, type: 'food', m: 'bowl' },
+        { n: "Ensalada Lentejas, Huevo, Atún, Queso", c: 450, p: 35, cho: 42, f: 18, type: 'food', m: 'bowl' },
+
+        // --- FAST FOOD / TABLAS ---
         { n: "Big Mac (McDonalds)", c: 505, p: 25, cho: 42, f: 26, type: 'food', m: 'unid' },
         { n: "Cuarto de Libra c/Queso", c: 520, p: 30, cho: 38, f: 26, type: 'food', m: 'unid' },
-        { n: "Pizza Muzarella (1 porción)", c: 280, p: 12, cho: 30, f: 12, type: 'food', m: 'unid' },
         { n: "Papas Fritas Medianas", c: 330, p: 3.4, cho: 42, f: 17, type: 'food', m: 'unid' },
+        { n: "Pizza Muzarella (1 porción)", c: 280, p: 12, cho: 30, f: 12, type: 'food', m: 'unid' },
+        { n: "Sushi (1 pieza variada)", c: 50, p: 2, cho: 10, f: 0.5, type: 'food', m: 'unid' },
+        { n: "Empanada de Carne", c: 250, p: 8, cho: 25, f: 12, type: 'food', m: 'unid' },
 
-        // ACTIVIDADES
-        { n: "Running", type: 'running' },
-        { n: "Fútbol", type: 'futbol' },
+        // --- GRASAS Y FRUTOS SECOS ---
+        { n: "Aceite de Oliva", c: 884, p: 0, cho: 0, f: 100, type: 'food', m: '10ml' },
+        { n: "Palta/Aguacate", c: 160, p: 2, cho: 8.5, f: 14.7, type: 'food', m: '100g' },
+        { n: "Almendras", c: 579, p: 21, cho: 22, f: 50, type: 'food', m: '100g' },
+        { n: "Nueces", c: 654, p: 15, cho: 14, f: 65, type: 'food', m: '100g' },
+        { n: "Maní (Sin sal)", c: 567, p: 26, cho: 16, f: 49, type: 'food', m: '100g' },
+
+        // --- ACTIVIDADES ---
+        { n: "Running (Carrera)", type: 'running' },
+        { n: "Fútbol (Partido)", type: 'futbol' },
         { n: "Gimnasio (Pesas)", met: 6.5, type: 'cardio' }
     ];
 
@@ -265,12 +313,12 @@
     };
 
     window.onload = function() {
-        const saved = localStorage.getItem('elite_pro_master_v6');
+        const saved = localStorage.getItem('elite_pro_master_v7');
         if (saved) { state = JSON.parse(saved); loadForm(); }
         renderAll();
     };
 
-    function save() { localStorage.setItem('elite_pro_master_v6', JSON.stringify(state)); }
+    function save() { localStorage.setItem('elite_pro_master_v7', JSON.stringify(state)); }
 
     function tab(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -347,7 +395,7 @@
         if(!state.weights.sq) { cont.innerHTML = '<p style="text-align:center; color:#64748b; padding:20px;">⚠️ Configura tus pesos en Ajustes primero.</p>'; return; }
         
         const step = (state.week - 1) % 5;
-        const sets = step === 4 ? 4 : 5 + step; // Ciclo 5, 6, 7, 8 y descarga 4
+        const sets = step === 4 ? 4 : 5 + step; 
         const reps = step === 4 ? 8 : 5 + step;
         const wInc = 1 + (Math.floor((state.week - 1) / 5) * 0.025);
         
@@ -362,8 +410,8 @@
         };
 
         const days = [
-            { n: `Día 1: Fuerza (${sets}x${reps})`, exs: [{id:"sq1", n:"Sentadilla", w:w.sq, s:sets, r:reps}, {id:"bp1", n:"Banca", w:w.bp, s:sets, r:reps}, {id:"bc1", n:"Bíceps (Sigue SQ)", w:w.bc, s:sets, r:12}, {id:"oh1", n:"Hombro (Sigue SQ)", w:w.ohp, s:sets, r:10}]},
-            { n: `Día 2: Espejo (${sets}x${reps})`, exs: [{id:"bp2", n:"Banca (Repite D1)", w:w.bp, s:sets, r:reps}, {id:"in2", n:"Inclinado Manc.", w:(w.bp*0.7).toFixed(1), s:3, r:10}, {id:"sq2", n:"Sentadilla (80%)", w:(w.sq*0.8).toFixed(1), s:3, r:8}]},
+            { n: `Día 1: Hipertrofia (${sets}x${reps})`, exs: [{id:"sq1", n:"Sentadilla", w:w.sq, s:sets, r:reps}, {id:"bp1", n:"Banca", w:w.bp, s:sets, r:reps}, {id:"bc1", n:"Bíceps (Sigue SQ)", w:w.bc, s:sets, r:12}, {id:"oh1", n:"Hombro (Sigue SQ)", w:w.ohp, s:sets, r:10}]},
+            { n: `Día 2: Espejo (${sets}x${reps})`, exs: [{id:"bp2", n:"Banca (D1 Espejo)", w:w.bp, s:sets, r:reps}, {id:"in2", n:"P. Inclinado Manc.", w:(w.bp*0.7).toFixed(1), s:3, r:10}, {id:"sq2", n:"Sentadilla Técnica", w:(w.sq*0.8).toFixed(1), s:3, r:8}]},
             { n: `Día 3: Cadena Post (${sets}x${reps})`, exs: [{id:"dl3", n:"Peso Muerto", w:w.dl, s:Math.min(sets,5), r:5}, {id:"sq3", n:"Sent. Var.", w:(w.sq*0.7).toFixed(1), s:3, r:12}, {id:"bc3", n:"Bíceps", w:w.bc, s:sets, r:10}]}
         ];
 
@@ -397,9 +445,11 @@
         document.getElementById('si-name').innerText = n;
         document.getElementById('selected-ui').style.display = 'block';
         document.getElementById('results').classList.remove('show');
-        document.getElementById('ui-running').style.display = state.selected.type === 'running' ? 'grid' : 'none';
-        document.getElementById('ui-futbol').style.display = state.selected.type === 'futbol' ? 'grid' : 'none';
-        document.getElementById('ui-std').style.display = (state.selected.type !== 'running' && state.selected.type !== 'futbol') ? 'grid' : 'none';
+        
+        const isRun = state.selected.type === 'running';
+        const isFoot = state.selected.type === 'futbol';
+        document.getElementById('ui-running').style.display = isRun ? 'grid' : 'none';
+        document.getElementById('ui-std').style.display = (isRun || isFoot) ? 'none' : 'grid';
         calcItem();
     }
 
@@ -417,12 +467,6 @@
             const manual = parseFloat(document.getElementById('run-kcal').value) || 0;
             c = manual > 0 ? -manual : -Math.round(state.weights.body * km * 1.036);
             document.getElementById('si-macros').innerHTML = `<span style="color:green">QUEMADO: ${c} Kcal</span>`;
-        } else if (item.type === 'futbol') {
-            const min = parseFloat(document.getElementById('foot-min').value) || 0;
-            const pitch = document.getElementById('foot-pitch').value;
-            const met = pitch === "11" ? 10 : (pitch === "9" ? 8 : 7);
-            c = -Math.round(met * state.weights.body * (min/60));
-            document.getElementById('si-macros').innerHTML = `<span style="color:green">Fútbol ${pitch}: ${c} Kcal</span>`;
         } else {
             c = -Math.round(item.met * state.weights.body * (qty/60));
             document.getElementById('si-macros').innerHTML = `<span style="color:green">QUEMADO: ${c} Kcal</span>`;
@@ -452,7 +496,7 @@
     function remItem(i) { state.diary.splice(i,1); save(); renderDiary(); }
     function loadForm() { ['sq','bp','dl','bc','ohp'].forEach(k => document.getElementById(`base-${k}`).value = state.weights[k]); document.getElementById('body-w').value = state.weights.body; document.getElementById('body-kcal').value = state.weights.goal; }
     function saveConfig() { state.weights = { sq: parseFloat(document.getElementById('base-sq').value), bp: parseFloat(document.getElementById('base-bp').value), dl: parseFloat(document.getElementById('base-dl').value), bc: parseFloat(document.getElementById('base-bc').value), ohp: parseFloat(document.getElementById('base-ohp').value), body: parseFloat(document.getElementById('body-w').value), goal: parseFloat(document.getElementById('body-kcal').value) }; save(); renderAll(); alert("⚡ Sincronizado"); }
-    function saveBio() { state.bio.unshift({w: document.getElementById('log-w').value, f: document.getElementById('log-f').value, d: new Date().toLocaleDateString()}); save(); renderBio(); }
+    function saveBio() { state.bio.unshift({w: document.getElementById('log-w').value, f: document.getElementById('log-f').value, t: document.getElementById('log-t').value, d: new Date().toLocaleDateString()}); save(); renderBio(); }
     function renderBio() { document.getElementById('bio-list').innerHTML = state.bio.map(b => `<div class="card" style="font-size:0.8rem"><b>${b.d}</b>: ${b.w}kg | ${b.f}%</div>`).join(''); }
     function changeWeek(d) { state.week = Math.max(1, state.week + d); save(); renderAll(); }
 
