@@ -66,20 +66,20 @@
         .set-box { height: 35px; border: 2px solid #e2e8f0; border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; background: #fff; font-size: 0.6rem; font-weight: 700; }
         .set-box.done { background: var(--secondary); border-color: var(--secondary); color: white; }
 
-        /* INTERFAZ */
+        /* INTERFAZ Y MODALES */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
         .modal-content { background: white; padding: 20px; border-radius: 24px; width: 100%; max-width: 420px; max-height: 90vh; overflow-y: auto; }
         .btn-primary { width: 100%; padding: 15px; border-radius: 15px; border: none; background: var(--primary); color: white; font-weight: 800; cursor: pointer; margin-top: 10px; }
         .btn-check { display: flex; align-items: center; justify-content: space-between; padding: 12px; border-radius: 12px; border: 2px solid #e2e8f0; margin-bottom: 8px; font-weight: 700; cursor: pointer; }
         .btn-check.selected { border-color: var(--primary); background: #eff6ff; color: var(--primary); }
         
-        /* EXTRAS */
-        .supp-pill { padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; cursor: pointer; border: 2px solid #e2e8f0; background: white; }
+        /* EXTRAS: SUPPS, AGUA, CHART */
+        .supp-pill { padding: 6px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; cursor: pointer; border: 2px solid #e2e8f0; background: white; transition: 0.2s; }
         .supp-pill.active { background: var(--purple); color: white; border-color: var(--purple); }
         .water-bar-container { background: #e0f2fe; border-radius: 10px; height: 12px; margin: 10px 0; overflow: hidden; }
         .water-bar-fill { background: var(--water); height: 100%; transition: 0.4s ease; width: 0%; }
         .btn-water { background: var(--water); color: white; border: none; padding: 10px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; flex: 1; cursor: pointer; }
-        .timer-overlay { position: fixed; bottom: 20px; right: 20px; background: var(--dark); color: white; padding: 8px 15px; border-radius: 50px; border: 2px solid var(--primary); display: none; z-index: 1000; font-weight: 800; font-size: 0.9rem; }
+        .timer-overlay { position: fixed; bottom: 20px; right: 20px; background: var(--dark); color: white; padding: 8px 15px; border-radius: 50px; border: 2px solid var(--primary); display: none; z-index: 1000; font-weight: 800; font-size: 0.9rem; box-shadow: 0 0 15px var(--primary); }
         
         .chart-container { width: 100%; height: 160px; margin-top: 10px; border-radius: 10px; overflow: hidden; }
         canvas { background: #f8fafc; border-radius: 10px; }
@@ -121,20 +121,20 @@
     <!-- PILLAR: AGENDA + COACH VOICE -->
     <section id="agenda" class="section active">
         <div class="card coach-card">
-            <div class="card-title" style="border:none;"><span class="coach-badge">Status del Atleta</span></div>
-            <p id="coach-advice" style="font-size:0.85rem; line-height:1.4; font-weight:600;">Carga tus perímetros y peso para el diagnóstico...</p>
+            <div class="card-title" style="border:none;"><span class="coach-badge">Diagnóstico del Coach</span></div>
+            <p id="coach-advice" style="font-size:0.85rem; line-height:1.4; font-weight:600;">Analizando tus datos de recuperación...</p>
         </div>
         <div class="card">
             <div class="calendar-grid" id="cal-grid"></div>
         </div>
     </section>
 
-    <!-- PILLAR: CONFIGURACIÓN Y BACKUP -->
+    <!-- PILLAR: CONFIGURACIÓN -->
     <section id="config" class="section">
         <div class="card">
-            <h2 class="card-title">⚙️ Pesos Base & Fase Actual</h2>
+            <h2 class="card-title">⚙️ Pesos Base & Fase</h2>
             <div class="config-grid">
-                <div class="input-group"><label>Fase de Trabajo</label>
+                <div class="input-group"><label>Fase Actual</label>
                     <select id="body-phase">
                         <option value="cut">Definición (Cutting)</option>
                         <option value="bulk">Volumen (Bulking)</option>
@@ -152,46 +152,46 @@
             </div>
         </div>
         <div class="card">
-            <h2 class="card-title">🏆 Calculadora 1RM Estimada</h2>
+            <h2 class="card-title">🏆 Calculadora de Máximos (1RM)</h2>
             <div class="config-grid">
-                <div class="input-group"><label>Peso</label><input type="number" id="calc-w" placeholder="kg"></div>
+                <div class="input-group"><label>Peso (kg)</label><input type="number" id="calc-w" placeholder="80"></div>
                 <div class="input-group"><label>Reps</label><input type="number" id="calc-r" placeholder="1-12"></div>
-                <div class="input-group" style="background:var(--indigo); color:white;"><label style="color:white">Máximo:</label><div id="calc-res" style="font-weight:800">-- kg</div></div>
+                <div class="input-group" style="background:var(--indigo); color:white;"><label style="color:white">1RM Estimado:</label><div id="calc-res" style="font-weight:800">-- kg</div></div>
             </div>
         </div>
     </section>
 
-    <!-- PILLAR: BIO + ANTROPOMETRÍA AVANZADA -->
+    <!-- PILLAR: BIO + ANTROPOMETRÍA -->
     <section id="bio" class="section">
         <div class="card">
-            <h2 class="card-title">📈 Tendencia Semanal</h2>
+            <h2 class="card-title">📈 Tendencia Semanal de Peso</h2>
             <div class="chart-container"><canvas id="weightChart"></canvas></div>
         </div>
         
         <div class="card projection-card">
-            <h2 class="card-title" style="border:none; color:#166534">📊 Composición Magra</h2>
+            <h2 class="card-title" style="border:none; color:#166534">📊 Composición Magra Real</h2>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; text-align:center;">
-                <div><label style="font-size:0.6rem; font-weight:700;">KILOS MÚSCULO/MAGRO</label><div class="proj-val"><span id="curr-muscle">0</span> kg</div></div>
-                <div><label style="font-size:0.6rem; font-weight:700;">KILOS GRASA</label><div class="proj-val" style="color:var(--danger)"><span id="curr-fat">0</span> kg</div></div>
+                <div><label style="font-size:0.6rem; font-weight:700;">KG MÚSCULO/MAGRO</label><div class="proj-val"><span id="curr-muscle">0</span> kg</div></div>
+                <div><label style="font-size:0.6rem; font-weight:700;">KG GRASA TOTAL</label><div class="proj-val" style="color:var(--danger)"><span id="curr-fat">0</span> kg</div></div>
             </div>
         </div>
 
         <div class="card" style="border-left: 5px solid var(--secondary);">
-            <h2 class="card-title">📐 Perímetros Musculares (cm)</h2>
+            <h2 class="card-title">📐 Perímetros (Crecimiento Muscular cm)</h2>
             <div class="config-grid">
-                <div class="input-group"><label>Pecho</label><input type="number" id="m-chest" step="0.1" placeholder="cm"></div>
-                <div class="input-group"><label>Cintura</label><input type="number" id="m-waist" step="0.1" placeholder="cm"></div>
                 <div class="input-group"><label>Bíceps</label><input type="number" id="m-biceps" step="0.1" placeholder="cm"></div>
+                <div class="input-group"><label>Cintura</label><input type="number" id="m-waist" step="0.1" placeholder="cm"></div>
                 <div class="input-group"><label>Muslo</label><input type="number" id="m-thigh" step="0.1" placeholder="cm"></div>
                 <div class="input-group"><label>Gemelo</label><input type="number" id="m-calf" step="0.1" placeholder="cm"></div>
+                <div class="input-group"><label>Pecho</label><input type="number" id="m-chest" step="0.1" placeholder="cm"></div>
                 <div class="input-group"><label>Cuello</label><input type="number" id="m-neck" step="0.1" placeholder="cm"></div>
             </div>
         </div>
 
         <div class="card">
-            <h2 class="card-title">📉 Registro Bio-Recuperación</h2>
+            <h2 class="card-title">📉 Registro Diario Bio-NEAT</h2>
             <div class="config-grid">
-                <div class="input-group"><label>Peso Actual</label><input type="number" id="log-w" step="0.1"></div>
+                <div class="input-group"><label>Peso kg</label><input type="number" id="log-w" step="0.1"></div>
                 <div class="input-group"><label>% Grasa</label><input type="number" id="log-f" step="0.1"></div>
                 <div class="input-group"><label>Sueño (hs)</label><input type="number" id="log-sleep" step="0.5" placeholder="7.5"></div>
                 <div class="input-group"><label>Pasos</label><input type="number" id="log-steps" placeholder="10000"></div>
@@ -205,7 +205,7 @@
     <section id="workout" class="section">
         <div style="display:flex; justify-content:center; align-items:center; gap:15px; margin-bottom:15px; color:white">
             <button class="nav-btn" onclick="changeWeek(-1)">◀</button>
-            <div id="week-label" style="font-weight: 800; font-size: 1.1rem;">SEMANA 3</div>
+            <div id="week-label" style="font-weight: 800; font-size: 1.1rem;">SEMANA 1</div>
             <button class="nav-btn" onclick="changeWeek(1)">▶</button>
         </div>
         <div id="workout-render"></div>
@@ -214,27 +214,28 @@
     <!-- PILLAR: DIETA + AGUA + SUPPS -->
     <section id="nutrition" class="section">
         <div class="card" style="border-left: 5px solid var(--water);">
-            <h2 class="card-title" style="color:var(--water)">💧 Hidratación Diario</h2>
+            <h2 class="card-title" style="color:var(--water)">💧 Hidratación</h2>
             <div style="text-align:center; font-weight:800; font-size:1.2rem;" id="water-status">0 / 3000 ml</div>
             <div class="water-bar-container"><div class="water-bar-fill" id="water-bar"></div></div>
             <div style="display:flex; gap:10px; margin-top:10px;">
                 <button class="btn-water" onclick="addWater(250)">+250ml 🥛</button>
                 <button class="btn-water" onclick="addWater(500)">+500ml 💧</button>
             </div>
-            <div id="water-alert" style="display:none; color:var(--danger); font-size:0.7rem; text-align:center; font-weight:800; margin-top:8px;">⚠️ ¡TOMAR AGUA! Estás por debajo de tu nivel de recuperación.</div>
+            <div id="water-alert" style="display:none; color:var(--danger); font-size:0.7rem; text-align:center; font-weight:800; margin-top:8px;">⚠️ ¡TOMAR AGUA! Recuperación comprometida.</div>
         </div>
 
-        <div class="card">
-            <h2 class="card-title">💊 Suplementación</h2>
+        <div class="card" style="border-left: 5px solid var(--purple);">
+            <h2 class="card-title" style="color:var(--purple)">💊 Suplementación Diaria</h2>
             <div style="display:flex; gap:10px; flex-wrap:wrap;">
                 <div class="supp-pill" id="supp-crea" onclick="toggleSupp('crea')">Creatina (5g)</div>
-                <div class="supp-pill" id="supp-whey" onclick="toggleSupp('whey')">Proteína</div>
+                <div class="supp-pill" id="supp-whey" onclick="toggleSupp('whey')">Whey Protein</div>
                 <div class="supp-pill" id="supp-vit" onclick="toggleSupp('vit')">Multivitamínico</div>
+                <div class="supp-pill" id="supp-citru" onclick="toggleSupp('citru')">Citrulina</div>
             </div>
         </div>
 
         <div class="card">
-            <input type="text" class="search-input" id="food-search" placeholder="Buscador Masivo Alimentos...">
+            <input type="text" class="search-input" id="food-search" placeholder="Buscador Masivo de Alimentos...">
             <div id="results" class="results-list"></div>
             <div id="selected-ui" style="display:none; margin-top:15px; background:#f1f5f9; padding:15px; border-radius:12px;">
                 <h3 id="si-name" style="font-size:0.9rem; color:var(--primary);"></h3>
@@ -248,28 +249,29 @@
 </div>
 
 <script>
+    // BASE DE DATOS NUTRICIONAL
     const foodDB = [
         { n: "Banana", c: 89, p: 1.1, cho: 22, f: 0.3, type: 'food' },
         { n: "Huevo Entero", c: 155, p: 13, cho: 1, f: 11, type: 'food' },
         { n: "Pollo Cocido", c: 165, p: 31, cho: 0, f: 3, type: 'food' },
-        { n: "Lentejas Cocidas", c: 116, p: 9, cho: 20, f: 0.5, type: 'food' },
-        { n: "Running", type: 'running' },
+        { n: "Arroz Cocido", c: 130, p: 2.7, cho: 28, f: 0.3, type: 'food' },
+        { n: "Running", met: 10, type: 'running' },
         { n: "Fútbol", met: 8.5, type: 'cardio' }
     ];
 
     let state = {
         week: 1, phase: 'recomp',
-        weights: { sq: 100, bp: 80, dl: 120, bc: 15, ohp: 40, body: 80, fCurr: 15, goal: 2400 },
+        weights: { sq: 100, bp: 80, dl: 120, bc: 15, ohp: 40, body: 80, fCurr: 15, fGoal: 10, goal: 2400 },
         diary: [], bio: [], doneSets: {}, agenda: {}, water: 0, supps: {}, measurements: {}
     };
 
     window.onload = () => {
-        const saved = localStorage.getItem('elite_pro_master_final_v16');
+        const saved = localStorage.getItem('elite_pro_ultimate_master_v17');
         if (saved) { state = JSON.parse(saved); loadConfigFields(); }
         renderAll();
     };
 
-    function save() { localStorage.setItem('elite_pro_master_final_v16', JSON.stringify(state)); }
+    function save() { localStorage.setItem('elite_pro_ultimate_master_v17', JSON.stringify(state)); }
 
     function tab(id) {
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
@@ -285,23 +287,23 @@
         renderWorkout(); renderDiary(); renderBio(); renderCalendar(); updateWaterUI(); renderSupps(); updateCoachAdvice();
     }
 
-    // PILLAR: DIAGNÓSTICO DEL COACH
+    // PILLAR: STATUS DEL COACH
     function updateCoachAdvice() {
         const adviceEl = document.getElementById('coach-advice');
         const lastBio = state.bio[0] || {};
         const step = (state.week - 1) % 5;
         const sets = step === 4 ? 4 : 5 + step;
 
-        let msg = "Analizando tus datos...";
-        if(lastBio.sleep < 7) msg = "⚠️ Dormiste poco. Hoy evita ir al fallo en básicos. Prioriza la técnica sobre la carga.";
-        else if (sets >= 7) msg = "🔥 Volumen Extremo (7x7/8x8). Consume +2g de proteína por kilo y toma +1L de agua extra.";
-        else if (state.phase === 'cut') msg = "⚔️ Definición: Mantén los pasos diarios arriba de 12k para no sacrificar calorías de la comida.";
-        else msg = "🚀 Todo en orden. ¡Dale duro a los básicos hoy!";
+        let msg = "Aún no tengo datos de hoy.";
+        if(lastBio.sleep < 7) msg = "⚠️ Dormiste poco. Hoy baja la intensidad un 10% para proteger tus ligamentos.";
+        else if (sets >= 7) msg = "🔥 Semana 8x8: Asegúrate de tomar tu Citrulina y Creatina. El bombeo será masivo.";
+        else if (state.phase === 'cut') msg = "⚔️ Cutting: Tu masa magra está en "+ (state.weights.body - (state.weights.body * (state.weights.fCurr/100))).toFixed(1) +"kg. Sigue así.";
+        else msg = "🚀 ¡Día de gloria! Ataca los básicos con todo.";
         
         adviceEl.innerText = msg;
     }
 
-    // PILLAR: ENTRENAMIENTO (8X8 + ESPEJO + TRACCION + SALUD + PIERNA)
+    // PILLAR: ENTRENAMIENTO (8X8 + ESPEJO + PIERNA + SALUD)
     function renderWorkout() {
         const step = (state.week - 1) % 5;
         const sets = step === 4 ? 4 : 5 + step;
@@ -372,6 +374,23 @@
         document.getElementById('water-alert').style.display = (pct < 65) ? 'block' : 'none';
     }
 
+    // PILLAR: SUPLEMENTACIÓN (CON CITRULINA)
+    function toggleSupp(id) {
+        const today = new Date().toLocaleDateString();
+        if(!state.supps[today]) state.supps[today] = [];
+        const idx = state.supps[today].indexOf(id);
+        if(idx > -1) state.supps[today].splice(idx,1); else state.supps[today].push(id);
+        save(); renderSupps();
+    }
+    function renderSupps() {
+        const today = new Date().toLocaleDateString();
+        const active = state.supps[today] || [];
+        ['crea', 'whey', 'vit', 'citru'].forEach(id => {
+            const el = document.getElementById(`supp-${id}`);
+            if(active.includes(id)) el.classList.add('active'); else el.classList.remove('active');
+        });
+    }
+
     // NUTRICION
     const sIn = document.getElementById('food-search');
     sIn.addEventListener('input', () => {
@@ -411,8 +430,6 @@
     function exportData() { navigator.clipboard.writeText(JSON.stringify(state)); alert("Respaldo copiado."); }
     function importData() { const d = prompt("Pega código:"); if(d){ state = JSON.parse(d); save(); location.reload(); } }
     function changeWeek(d) { state.week = Math.max(1, state.week + d); save(); renderAll(); }
-    function toggleSupp(id) { const today = new Date().toLocaleDateString(); if(!state.supps[today]) state.supps[today] = []; const idx = state.supps[today].indexOf(id); if(idx > -1) state.supps[today].splice(idx,1); else state.supps[today].push(id); save(); renderSupps(); }
-    function renderSupps() { const today = new Date().toLocaleDateString(); const active = state.supps[today] || []; ['crea', 'whey', 'vit'].forEach(id => { const el = document.getElementById(`supp-${id}`); if(active.includes(id)) el.classList.add('active'); else el.classList.remove('active'); }); }
 
     // CALCULADORA 1RM
     document.getElementById('calc-w').oninput = calc1RM; document.getElementById('calc-r').oninput = calc1RM;
