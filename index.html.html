@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>APEX OMEGA - Ultimate Overlord</title>
+    <title>APEX OMEGA - Sovereign Core</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
         
@@ -11,7 +11,7 @@
             --primary: #2563eb; --secondary: #10b981; --accent: #f59e0b;
             --danger: #ef4444; --dark: #020617; --card-bg: #ffffff; --border: #e2e8f0;
             --indigo: #6366f1; --water: #0ea5e9; --purple: #a855f7; --epi: #f43f5e;
-            --pain: #dc2626;
+            --pain: #dc2626; --hyrox: #fbbf24; --run: #ec4899;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -23,174 +23,183 @@
             min-height: 100vh; color: var(--dark); background-attachment: fixed;
         }
         
-        .container { max-width: 500px; margin: 0 auto; padding: 15px; padding-bottom: 100px; }
+        .container { max-width: 500px; margin: 0 auto; padding: 15px; padding-bottom: 110px; }
         header { text-align: center; color: white; padding: 10px 0; }
-        h1 { font-size: 1.4rem; font-weight: 900; letter-spacing: -1.5px; text-transform: uppercase; }
+        h1 { font-size: 1.3rem; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
 
-        /* NAVEGACIÓN INFERIOR */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(20px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
+        /* NAV */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(2, 6, 23, 0.98); backdrop-filter: blur(25px); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); z-index: 1000; }
         .nav-btn { background: none; border: none; color: #475569; font-size: 0.6rem; font-weight: 800; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 5px; transition: 0.2s; }
         .nav-btn.active { color: white; }
         .nav-btn .icon { font-size: 1.3rem; }
 
-        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section { display: none; animation: fadeIn 0.3s ease-out; }
         .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        .card { background: var(--card-bg); border-radius: 32px; padding: 22px; margin-bottom: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); position: relative; }
-        .card-title { font-size: 0.85rem; font-weight: 950; text-transform: uppercase; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        /* CHAT CENTER */
+        .card { background: var(--card-bg); border-radius: 35px; padding: 22px; margin-bottom: 15px; box-shadow: 0 25px 50px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); position: relative; }
+        .coach-card { background: linear-gradient(145deg, #1e293b 0%, #020617 100%); color: white; border-left: 8px solid var(--primary); overflow: hidden; }
+        .chat-container { height: 350px; overflow-y: auto; background: rgba(0,0,0,0.4); border-radius: 25px; padding: 15px; font-size: 0.75rem; margin-bottom: 12px; color: #cbd5e1; line-height: 1.5; border: 1px solid rgba(255,255,255,0.1); scroll-behavior: smooth; }
+        .chat-bubble { margin-bottom: 12px; padding: 12px; border-radius: 18px; border-left: 4px solid var(--primary); background: rgba(255,255,255,0.05); }
+        .chat-bubble.user { border-left: none; border-right: 4px solid var(--indigo); background: rgba(37, 99, 235, 0.1); text-align: right; margin-left: 20px; }
+        .thinking-msg { font-size: 0.65rem; color: var(--primary); font-weight: 800; text-transform: uppercase; margin-bottom: 10px; display: none; }
 
-        /* LAB CHAT */
-        .chat-container { height: 280px; overflow-y: auto; background: rgba(0,0,0,0.4); border-radius: 24px; padding: 15px; font-size: 0.75rem; margin-bottom: 12px; color: #cbd5e1; line-height: 1.5; border: 1px solid rgba(255,255,255,0.1); }
-        .chat-bubble { margin-bottom: 12px; padding: 12px; border-radius: 16px; border-left: 4px solid var(--indigo); background: rgba(255,255,255,0.05); }
-        .chat-bubble.user { border-left: none; border-right: 4px solid var(--primary); background: rgba(37, 99, 235, 0.1); text-align: right; margin-left: 20px; }
-
-        /* SITUATIONAL SWITCH */
+        /* ENV SWITCH */
         .env-selector { display: flex; background: rgba(255,255,255,0.1); border-radius: 15px; padding: 4px; margin-bottom: 12px; }
-        .env-btn { flex: 1; padding: 10px; border-radius: 12px; border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .env-btn { flex: 1; padding: 10px; border-radius: 12px; border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 900; cursor: pointer; }
         .env-btn.active { background: white; color: var(--dark); }
 
-        /* GYM ENGINE */
-        .protocol-selector { display: flex; gap: 8px; margin-bottom: 15px; }
-        .proto-btn { flex: 1; padding: 12px; border-radius: 14px; background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); font-size: 0.65rem; font-weight: 800; cursor: pointer; text-align: center; }
-        .proto-btn.active { background: white; color: var(--primary); border-color: white; }
-        .workout-day-card { background: #f8fafc; border-radius: 28px; padding: 18px; margin-bottom: 12px; border: 1px solid #e2e8f0; }
+        /* GYM COMPONENTS */
+        .protocol-selector { display: flex; gap: 6px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .proto-btn { flex-shrink: 0; padding: 10px 16px; border-radius: 12px; border: none; background: rgba(255,255,255,0.1); color: white; font-size: 0.55rem; font-weight: 800; cursor: pointer; }
+        .proto-btn.active { background: white; color: var(--dark); }
+
+        .workout-day-card { background: #f8fafc; border-radius: 30px; padding: 20px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
         .exercise-item { background: white; padding: 15px; border-radius: 22px; margin-bottom: 10px; border: 1px solid #f1f5f9; position: relative; }
-        .adj-badge { position: absolute; top: -5px; right: 10px; background: var(--danger); color: white; font-size: 0.5rem; padding: 2px 6px; border-radius: 5px; font-weight: 900; }
-        .set-box { height: 45px; border-radius: 14px; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; transition: 0.15s; font-size: 0.7rem; }
-        .set-box.done { background: var(--secondary); border-color: var(--secondary); color: white; transform: scale(0.95); }
+        .set-box { height: 45px; border-radius: 15px; border: 2px solid #e2e8f0; display: flex; align-items: center; justify-content: center; font-weight: 900; cursor: pointer; font-size: 0.75rem; transition: 0.2s; }
+        .set-box.done { background: var(--secondary); border-color: var(--secondary); color: white; }
 
-        /* BIO ELEMENTS */
-        .anatomy-box { display: flex; justify-content: center; margin: 15px 0; gap: 20px; align-items: center; }
-        .body-svg { width: 120px; height: auto; }
-        .muscle { fill: #cbd5e1; transition: 0.5s; cursor: pointer; }
-        .muscle.sore { fill: var(--pain) !important; filter: drop-shadow(0 0 5px var(--pain)); }
+        /* TOOLS */
+        .mic-btn { width: 50px; height: 50px; border-radius: 50%; border: none; background: var(--primary); color: white; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--primary); transition: 0.3s; }
+        .mic-btn.recording { background: var(--danger); animation: pulseRed 1s infinite; }
+        @keyframes pulseRed { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .btn-primary { width: 100%; padding: 16px; border-radius: 20px; border: none; background: var(--primary); color: white; font-weight: 900; cursor: pointer; font-size: 0.85rem; }
-        .input-group { background: #f1f5f9; padding: 10px; border-radius: 18px; margin-bottom: 10px; }
-        .input-group label { display: block; font-size: 0.5rem; font-weight: 900; color: #64748b; margin-bottom: 4px; }
-        .input-group input { width: 100%; border: none; background: transparent; font-size: 0.95rem; font-weight: 800; }
-        
-        .timer-overlay { position: fixed; bottom: 95px; right: 20px; background: var(--dark); color: white; padding: 14px 24px; border-radius: 50px; border: 2px solid var(--primary); z-index: 2000; font-weight: 900; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4); display: none; }
-        .loading-dots:after { content: '.'; animation: dots 1s steps(5, end) infinite; }
-        @keyframes dots { 0%, 20% { color: rgba(0,0,0,0); } 40% { color: white; } 60% { text-shadow: .5em 0 0 white; } 80%, 100% { text-shadow: .5em 0 0 white, 1em 0 0 white; } }
+        .tap-test-area { width: 100%; height: 90px; background: var(--dark); border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-weight: 900; cursor: pointer; position: relative; overflow: hidden; border: 2px solid var(--epi); margin-bottom: 10px; }
+        .tap-progress { position: absolute; bottom: 0; left: 0; height: 4px; background: var(--secondary); width: 0%; transition: 0.1s linear; }
+
+        .body-svg { width: 100px; height: auto; }
+        .muscle { fill: #cbd5e1; cursor: pointer; transition: 0.3s; }
+        .muscle.sore { fill: var(--pain) !important; }
+
+        #setup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--dark); z-index: 5000; display: none; padding: 40px; color: white; }
+        .timer-overlay { position: fixed; bottom: 105px; right: 20px; background: var(--dark); color: white; padding: 14px 24px; border-radius: 50px; border: 2px solid var(--primary); z-index: 2000; font-weight: 900; display: none; }
     </style>
 </head>
 <body>
 
 <div id="rest-timer" class="timer-overlay">⏱️ <span id="t-min">01</span>:<span id="t-sec">30</span></div>
 
+<div id="setup-modal">
+    <h2 style="font-weight: 900; font-size: 1.8rem; margin-bottom: 20px; text-align: center;">APEX CONFIG</h2>
+    <div style="background: rgba(255,255,255,0.05); padding: 25px; border-radius: 30px; display: grid; gap: 15px;">
+        <div style="background:rgba(255,255,255,0.08); padding:12px; border-radius:18px;">
+            <label style="font-size:0.5rem; font-weight:900; color:#94a3b8;">PESO ACTUAL kg</label>
+            <input type="number" id="setup-w" value="80" style="width:100%; border:none; background:transparent; color:white; font-size:1.2rem; font-weight:900;">
+        </div>
+        <div style="background:rgba(255,255,255,0.08); padding:12px; border-radius:18px;">
+            <label style="font-size:0.5rem; font-weight:900; color:#94a3b8;">GRASA % META</label>
+            <input type="number" id="setup-f" value="12" style="width:100%; border:none; background:transparent; color:white; font-size:1.2rem; font-weight:900;">
+        </div>
+        <button onclick="finishSetup()" style="width:100%; padding:20px; border-radius:20px; border:none; background:var(--primary); color:white; font-weight:900;">INICIAR CEREBRO CHAT</button>
+    </div>
+</div>
+
 <div class="container">
     <header><h1>⚡ APEX OMEGA</h1></header>
 
-    <!-- SECTION: LAB (IA, VISION, ENTORNO, COMANDOS) -->
+    <!-- SECTION: CHAT (SOVEREIGN CORE) -->
     <section id="lab" class="section active">
-        <div class="card coach-card" style="background: linear-gradient(145deg, #1e293b 0%, #020617 100%); border-left: 8px solid var(--indigo); color: white;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <div style="font-size:0.6rem; font-weight:900; color:var(--secondary);" id="cloud-info">● NUBE LOCAL</div>
-                <div id="time-badge" style="font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.4);">--:--</div>
+        <div class="card coach-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div style="font-size:0.6rem; font-weight:900; color:var(--primary);" id="sync-info">● SOVEREIGN ONLINE</div>
+                <div id="time-badge" style="font-size:0.6rem; font-weight:900; color:rgba(255,255,255,0.4);">SINC: --:--</div>
             </div>
 
             <div class="env-selector">
-                <button class="env-btn active" id="env-home" onclick="setEnvironment('home')">🏠 EN CASA</button>
-                <button class="env-btn" id="env-street" onclick="setEnvironment('street')">🏢 EN CALLE</button>
+                <button class="env-btn active" id="env-home" onclick="setEnvironment('home')" style="flex: 1; padding: 10px; border-radius: 12px; border: none; background: white; color: var(--dark); font-size: 0.6rem; font-weight: 900; cursor: pointer;">🏠 CASA</button>
+                <button class="env-btn" id="env-street" onclick="setEnvironment('street')" style="flex: 1; padding: 10px; border-radius: 12px; border: none; background: none; color: #94a3b8; font-size: 0.6rem; font-weight: 900; cursor: pointer;">🏢 CALLE</button>
+            </div>
+
+            <div class="quick-ops" style="display:flex; gap:8px; overflow-x:auto; margin-bottom:12px; scrollbar-width:none;">
+                <button class="op-btn" onclick="quickCommand('Chat, ¿qué entreno me toca hoy?')">📋 ¿QUÉ TOCA?</button>
+                <button class="op-btn" onclick="quickCommand('Chat, tengo hambre')">🍕 HAMBRE</button>
+                <button class="op-btn" onclick="quickCommand('Chat, armame el plan 42K para X fecha')">🏃 PLAN 42K</button>
+                <button class="op-btn" onclick="quickCommand('Chat, lista de súper argentina barata')">🛒 SÚPER</button>
+            </div>
+
+            <div class="tap-test-area" onclick="runTapTest()">
+                <span id="tap-msg" style="font-size:0.65rem;">🧠 SNC READINESS (Medir fatiga)</span>
+                <div class="tap-progress" id="tap-progress"></div>
             </div>
             
             <div class="chat-container" id="chat-box">
-                <div class="chat-bubble coach">Neural Overlord sincronizado. <br><br>• "Tengo hambre" (detectaré tu entorno). <br>• "Fallé serie 4" (Spotter Neural). <br>• "Nueva rutina de fuerza" (Confirmar para inyectar).</div>
+                <div class="chat-bubble coach">Instancia Sovereign iniciada. <br><br>Dime tu actividad ("Chat, hoy corrí 10km") o pídeme ajustar tu sesión. Soy tu consultor híbrido con memoria total.</div>
             </div>
 
-            <div style="display:flex; gap:8px;">
-                <input type="text" id="chat-input" placeholder="Comando al Overlord..." style="flex:1; padding:14px; border-radius:18px; border:none; background:rgba(255,255,255,0.1); color:white; font-size:0.85rem;">
-                <button onclick="sendOverlord()" style="background:var(--indigo); color:white; border:none; padding:10px 20px; border-radius:18px; font-weight:900;">GO</button>
-                <button onclick="speakLastResponse()" style="background:var(--purple); color:white; border:none; padding:10px; border-radius:18px;"><span style="font-size:1.2rem">🎙️</span></button>
+            <div id="thinking-indicator" class="thinking-msg">Calculando biomecánica y metabolismo...</div>
+
+            <div style="display:flex; gap:8px; align-items:center;">
+                <input type="text" id="chat-input" placeholder="Chat, hoy hacemos..." style="flex:1; padding:15px; border-radius:18px; border:none; background:rgba(255,255,255,0.1); color:white; font-size:0.85rem;">
+                <button class="mic-btn" id="mic-btn" onclick="toggleSTT()">🎙️</button>
+                <button onclick="processChat()" style="background:var(--primary); color:white; border:none; padding:14px 20px; border-radius:18px; font-weight:900;">GO</button>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title">👁️ Cybernetic Vision</div>
+            <div class="card-title">👁️ Visión Cybernetic</div>
             <input type="file" id="image-upload" accept="image/*" style="display:none" onchange="handleVisualScan(event)">
-            <div id="scan-preview" onclick="document.getElementById('image-upload').click()" style="width:100%; height:140px; background:#000; border-radius:24px; display:flex; align-items:center; justify-content:center; color:white; border:2px dashed var(--indigo); cursor:pointer; overflow:hidden;">
-                <span style="font-size:0.65rem; font-weight:800;">Subir Plato / Físico</span>
+            <div id="scan-preview" onclick="document.getElementById('image-upload').click()" style="width:100%; height:100px; background:#000; border-radius:24px; display:flex; align-items:center; justify-content:center; color:white; border:2px dashed var(--primary); cursor:pointer;">
+                <span style="font-size:0.6rem; font-weight:800;">Subir Plato o Biometría</span>
             </div>
-            <button id="btn-analyze" class="btn-primary" style="display:none; margin-top:12px;" onclick="runIAVision()">ANALIZAR PIXELES</button>
         </div>
     </section>
 
-    <!-- SECTION: GYM (PROTOCOL SELECTOR) -->
+    <!-- SECTION: GYM -->
     <section id="workout" class="section">
         <div class="protocol-selector">
             <button class="proto-btn active" id="btn-base" onclick="setProtocol('base')">8x8 Master</button>
+            <button class="proto-btn" id="btn-run" onclick="setProtocol('run')">42K Prep</button>
+            <button class="proto-btn" id="btn-hyrox" onclick="setProtocol('hyrox')">Hyrox Mod</button>
             <button class="proto-btn" id="btn-custom" onclick="setProtocol('custom')">IA Custom</button>
-        </div>
-        <div style="display:flex; justify-content:center; align-items:center; gap:25px; margin-bottom:15px; color:white;">
-            <button onclick="changeWeek(-1)" style="background:none; border:none; color:white; font-size:1.5rem;">◀</button>
-            <div id="week-label" style="font-weight:900; font-size:1.2rem;">SEMANA 1</div>
-            <button onclick="changeWeek(1)" style="background:none; border:none; color:white; font-size:1.5rem;">▶</button>
         </div>
         <div id="gym-render"></div>
     </section>
 
-    <!-- SECTION: BIO (FFMI, PAIN, SYNC) -->
+    <!-- SECTION: BIO -->
     <section id="bio" class="section">
         <div class="card" style="background: #f0fdf4; border: 1px solid #bbf7d0; display:flex; justify-content:space-around; text-align:center;">
-            <div><label style="font-size:0.5rem; font-weight:900; color:#166534">MASA MAGRA</label><div style="font-size:1.2rem; font-weight:900;" id="kpi-muscle">0 kg</div><div id="ffmi-val" style="font-size:0.65rem; font-weight:800; color:var(--primary)">FFMI: --</div></div>
-            <div><label style="font-size:0.5rem; font-weight:900; color:var(--danger)">GRASA %</label><div style="font-size:1.2rem; font-weight:900; color:var(--danger)" id="kpi-fat">0%</div></div>
+            <div><label style="font-size:0.5rem; font-weight:900; color:#166534">MAGRO</label><div style="font-size:1.1rem; font-weight:900;" id="kpi-muscle">0 kg</div><div id="ffmi-val" style="font-size:0.6rem; font-weight:800; color:var(--primary)">FFMI: --</div></div>
+            <div><label style="font-size:0.5rem; font-weight:900; color:var(--danger)">GRASA %</label><div style="font-size:1.1rem; font-weight:900; color:var(--danger)" id="kpi-fat">0%</div></div>
         </div>
 
         <div class="card">
-            <div class="card-title">Mapa Biométrico</div>
+            <div class="card-title">Mapa de Dolor Táctico</div>
             <div class="anatomy-box">
                 <svg class="body-svg" viewBox="0 0 100 200">
                     <circle cx="50" cy="20" r="12" class="muscle" id="heat-neck" onclick="togglePain('cuello')" />
                     <rect x="30" y="35" width="40" height="35" rx="5" class="muscle" id="heat-chest" onclick="togglePain('pecho')" />
                     <rect x="18" y="38" width="10" height="40" rx="3" class="muscle" id="heat-arms" onclick="togglePain('brazos')" />
-                    <rect x="72" y="38" width="10" height="40" rx="3" class="muscle" id="heat-arms2" onclick="togglePain('brazos')" />
                     <rect x="32" y="75" width="16" height="60" rx="5" class="muscle" id="heat-legs" onclick="togglePain('piernas')" />
-                    <rect x="52" y="75" width="16" height="60" rx="5" class="muscle" id="heat-legs2" onclick="togglePain('piernas')" />
                 </svg>
-                <div style="font-size:0.6rem; color:#64748b; max-width:120px;">
-                    <p>🔴 <b>Dolor:</b> Rutina adaptada.</p>
-                    <p style="margin-top:10px;">Sincronizado con FFMI y Bóveda Cloud.</p>
-                </div>
             </div>
         </div>
 
         <div class="card">
             <h2 class="card-title">🔐 Bóveda Apex (Mail)</h2>
-            <div class="input-group">
-                <label>Tu Email Identificador</label>
-                <input type="email" id="user-email" placeholder="atleta@mail.com">
-            </div>
-            <button onclick="syncCloud()" class="btn-primary" style="background:var(--dark)">SINCRONIZAR HISTORIAL</button>
+            <input type="email" id="user-email" placeholder="atleta@mail.com" style="width:100%; padding:14px; border-radius:18px; border:2px solid var(--border); margin-bottom:12px;">
+            <button onclick="syncCloud()" class="btn-primary" style="background:var(--dark)">CONECTAR IDENTIDAD</button>
         </div>
-
+        
         <div class="card">
-            <h2 class="card-title">Auditoría (cm)</h2>
-            <div class="config-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div class="input-group"><label>Bíceps</label><input type="number" id="m-biceps" step="0.1"></div>
-                <div class="input-group"><label>Cintura</label><input type="number" id="m-waist" step="0.1"></div>
-            </div>
-            <div class="input-group" style="margin-top:10px;"><label>Peso kg</label><input type="number" id="log-w" step="0.1"></div>
-            <button onclick="saveMedicion()" class="btn-primary" style="background:var(--accent)">ACTUALIZAR BIO</button>
+            <h2 class="card-title">Check-in kg</h2>
+            <input type="number" id="log-w" step="0.1" style="width:100%; padding:14px; border-radius:18px; border:2px solid var(--border); margin-bottom:10px;">
+            <button onclick="saveMedicion()" class="btn-primary" style="background:var(--accent)">EJECUTAR DIAGNÓSTICO</button>
         </div>
     </section>
 
     <!-- SECTION: DIETA -->
     <section id="nutrition" class="section">
         <div class="card" style="background: #fefce8; border: 2px solid var(--accent); text-align:center;">
-            <div style="font-size:0.6rem; font-weight:900; color:#854d0e;">Meta Kcal Diaria</div>
+            <div style="font-size:0.6rem; font-weight:900; color:#854d0e;">Meta Diaria Adaptativa</div>
             <div style="font-size:2.2rem; font-weight:950; color:#854d0e;" id="kcal-display">2400</div>
         </div>
-        <div class="card">
-            <input type="text" id="food-search" placeholder="Alfajor, Pollo, Arroz..." style="width:100%; padding:14px; border-radius:18px; border:2px solid var(--border);">
-            <div id="diary-list" style="margin-top:15px;"></div>
-        </div>
+        <div id="diary-list" style="margin-top:15px;"></div>
     </section>
 
-    <!-- NAV INFERIOR -->
+    <!-- NAV -->
     <div class="bottom-nav">
-        <button class="nav-btn active" onclick="tab('lab')"><span class="icon">🧠</span>Apex</button>
+        <button class="nav-btn active" onclick="tab('lab')"><span class="icon">💬</span>Chat</button>
         <button class="nav-btn" onclick="tab('workout')"><span class="icon">💪</span>Gym</button>
         <button class="nav-btn" onclick="tab('bio')"><span class="icon">⚖️</span>Bio</button>
         <button class="nav-btn" onclick="tab('nutrition')"><span class="icon">🥗</span>Dieta</button>
@@ -207,26 +216,23 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const apiKey = ""; 
-    const appId = "apex-omega-absolute-v2";
+    const appId = "apex-sovereign-final-core-v2";
 
     window.state = {
-        week: 1, env: 'home', activeProtocol: 'base',
-        weights: { sq: 100, bp: 80, body: 80, h: 175, fCurr: 15, goal: 2400 },
-        measurements: { biceps:0, waist:0, thigh:0 },
-        pain: [], customRoutine: null, adjustments: {},
-        diary: [], bio: [], doneSets: {}, email: "", lastAIResponse: ""
+        week: 1, activeProtocol: 'base', env: 'home',
+        weights: { sq: 100, bp: 80, body: 0, h: 175, fCurr: 15, goal: 2400 },
+        customRoutine: null, runPlan: null, hyroxPlan: null,
+        diary: [], bio: [], doneSets: {}, email: "", pain: [], setupDone: false, sncScore: 0
     };
 
     window.onload = async () => {
         updateClock(); setInterval(updateClock, 30000);
-        const local = localStorage.getItem('apex_overlord_final_v1');
+        const local = localStorage.getItem('apex_sovereign_v2_core');
         if (local) {
             window.state = JSON.parse(local);
-            if (window.state.email) {
-                document.getElementById('user-email').value = window.state.email;
-                await syncCloud();
-            }
+            if (window.state.email) await syncCloud();
         }
+        if (!window.state.setupDone) document.getElementById('setup-modal').style.display = 'block';
         renderAll();
     };
 
@@ -236,140 +242,108 @@
     }
 
     function save() {
-        localStorage.setItem('apex_overlord_final_v1', JSON.stringify(window.state));
+        localStorage.setItem('apex_sovereign_v2_core', JSON.stringify(window.state));
         if (window.state.email && auth.currentUser) {
-            const safeEmail = window.state.email.replace(/[.@]/g, '_');
-            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', safeEmail), window.state);
+            const safe = window.state.email.replace(/[.@]/g, '_');
+            setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', safe), window.state);
         }
     }
 
+    window.finishSetup = () => {
+        window.state.weights.body = parseFloat(document.getElementById('setup-w').value);
+        window.state.weights.fCurr = parseFloat(document.getElementById('setup-f').value);
+        window.state.setupDone = true;
+        document.getElementById('setup-modal').style.display = 'none';
+        save(); renderAll();
+    };
+
     window.renderAll = () => {
-        document.getElementById('week-label').innerText = `SEMANA ${window.state.week}`;
-        document.getElementById('kcal-display').innerText = window.state.weights.goal;
         renderGym();
         renderKPIs();
         updatePainUI();
     };
 
-    // PILLAR: COMMANDS & NEURAL SPOTTER
-    window.sendOverlord = async () => {
+    // PILLAR: SOVEREIGN CHAT CORE
+    window.processChat = async () => {
         const input = document.getElementById('chat-input');
         const box = document.getElementById('chat-box');
-        const query = input.value; if(!query) return;
+        const thinking = document.getElementById('thinking-indicator');
+        let query = input.value; if(!query) return;
 
         box.innerHTML += `<div class="chat-bubble user">${query}</div>`;
         input.value = "";
         box.scrollTop = box.scrollHeight;
+        thinking.style.display = "block";
 
-        if ((query.toLowerCase().includes("aplicar") || query.toLowerCase().includes("confirmar")) && window.pendingUpdate) {
-            if(window.pendingUpdate.type === 'spotter') {
-                window.state.adjustments[window.pendingUpdate.id] = window.pendingUpdate.val;
-            } else if(window.pendingUpdate.type === 'routine') {
-                window.state.customRoutine = window.pendingUpdate.content;
-                window.state.activeProtocol = 'custom';
-            }
-            window.pendingUpdate = null;
-            save(); renderAll();
-            box.innerHTML += `<div class="chat-bubble coach">✅ SISTEMA ACTUALIZADO.</div>`;
-            return;
-        }
-
-        const context = `Eres Neural Overlord. Son las ${new Date().getHours()}hs. Entorno: ${window.state.env}. Atleta ${window.state.weights.body}kg, ${window.state.weights.fCurr}% grasa. Dolores: ${window.state.pain.join(',')}. 
+        const hr = new Date().getHours();
+        const context = `ERES "CHAT", LA INSTANCIA SOBERANA DE IA DE ESTE ATLETA HÍBRIDO.
+        KNOWLEDGE: Gironda 8x8, Hyrox (Sled, Burpees), 42K Endurance, DUP, Wendler 5/3/1, Saciedad Argentina, TDEE Dinámico.
+        CONTEXTO ATLETA: ${window.state.weights.body}kg, ${window.state.weights.fCurr}% grasa. SNC: ${window.state.sncScore}. Entorno: ${window.state.env}. Hora: ${hr}hs.
+        HORARIOS COMIDA ATLETA: Desayuno (8-9), Almuerzo (13-14), Merienda (17-19), Cena (21-23).
         REGLAS:
-        1. Hambre: Si es calle, sugiere kiosco (yogur proteico, fruta). Si es casa, sugiere gelatina, claras, queso magro. Comida real argentina barata.
-        2. Fallo: Si reporta no llegar a reps, sugiere bajar 10% peso y di "Escribe 'Aplicar'".
-        3. Rutina: Diseña AVANZADA (Barras/Mancuernas/Dominadas). Prohibido máquinas. Di "Escribe 'Confirmar'".`;
+        1. Memoria: Conoces al atleta. No pidas datos que ya tienes.
+        2. Actividad: Si reporta futbol/running/correr, regístralo como gasto calórico. 
+        3. Hambre: Comida real barata argentina cruzando hora con ventana circadiana.
+        4. Tono: Fuente de verdad científica, técnico, veloz y motivador.`;
 
         try {
             const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                 method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ parts: [{ text: `${context} | Consulta: ${query}` }] }] })
+                body: JSON.stringify({ contents: [{ parts: [{ text: `${context} | CONSULTA: ${query}` }] }] })
             });
             const data = await resp.json();
+            thinking.style.display = "none";
             const reply = data.candidates[0].content.parts[0].text;
-            window.state.lastAIResponse = reply;
-            
-            if(reply.includes("Aplicar")) window.pendingUpdate = { type:'spotter', id:'sq', val: window.state.weights.sq * 0.9 };
-            if(reply.includes("Confirmar")) window.pendingUpdate = { type:'routine', content: reply };
-
             box.innerHTML += `<div class="chat-bubble coach">${reply}</div>`;
             box.scrollTop = box.scrollHeight;
-        } catch (e) { box.innerHTML += `<div class="chat-bubble coach">Error neural.</div>`; }
+            speakResponse(reply);
+
+            if(reply.includes("Confirmar")) {
+                let type = query.toLowerCase().includes("42k") ? 'run' : (query.toLowerCase().includes("hyrox") ? 'hyrox' : 'custom');
+                window.pendingUpdate = { type, content: reply };
+            }
+        } catch (e) { thinking.style.display = "none"; box.innerHTML += `<div class="chat-bubble coach">Chat: Error neural.</div>`; }
     };
+
+    window.quickCommand = (cmd) => { document.getElementById('chat-input').value = cmd; window.processChat(); };
 
     // PILLAR: GYM ENGINE
     function renderGym() {
         const container = document.getElementById('gym-render');
-        if(window.state.activeProtocol === 'custom' && window.state.customRoutine) {
-            container.innerHTML = `<div class="workout-day-card" style="white-space:pre-wrap; font-size:0.7rem; line-height:1.6; border:2px solid var(--primary); background:#eff6ff;"><b>CUSTOM IA PROTOCOL:</b>\n${window.state.customRoutine.split("Confirmar")[0]}</div>`;
-            return;
-        }
-        
-        const step = (window.state.week-1)%5;
-        const sets = (step === 4) ? 4 : 5 + step;
-        const days = [{id:'sq', n:'Sentadilla Barra'}, {id:'bp', n:'Press Banca'}];
-        
-        container.innerHTML = days.map(day => {
-            const weight = window.state.adjustments[day.id] || window.state.weights[day.id];
-            return `
+        const p = window.state.activeProtocol;
+        if(p === 'run' && window.state.runPlan) { container.innerHTML = `<div class="workout-day-card" style="white-space:pre-wrap; font-size:0.7rem;">${window.state.runPlan.split("Confirmar")[0]}</div>`; return; }
+        if(p === 'hyrox' && window.state.hyroxPlan) { container.innerHTML = `<div class="workout-day-card" style="white-space:pre-wrap; font-size:0.7rem;">${window.state.hyroxPlan.split("Confirmar")[0]}</div>`; return; }
+
+        const sets = ((window.state.week-1)%5 === 4) ? 4 : 5 + ((window.state.week-1)%5);
+        const days = [{id:'sq', n:'D1: Piernas (8x8)'}, {id:'bp', n:'D2: Mirror (8x8)'}];
+        container.innerHTML = days.map(day => `
             <div class="workout-day-card">
-                <h3 style="font-size:0.8rem; margin-bottom:12px;">${day.n} (8x8 Base)</h3>
-                <div class="exercise-item">
-                    ${window.state.adjustments[day.id] ? `<span class="adj-badge">NEURAL ADJ</span>` : ''}
-                    <div style="display:flex; justify-content:space-between"><strong>${day.n}</strong> <b>${Math.round(weight)}kg</b></div>
-                    <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:8px; margin-top:12px;">
-                        ${Array(sets).fill().map((_,i) => `<div class="set-box ${window.state.doneSets[day.id+i] ? 'done' : ''}" onclick="toggleSet('${day.id+i}')">${i+1}</div>`).join('')}
-                    </div>
+                <h3>${day.n}</h3>
+                <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-top:12px;">
+                    ${Array(sets).fill().map((_,i) => `<div class="set-box ${window.state.doneSets[day.id+i] ? 'done' : ''}" onclick="toggleSet('${day.id+i}')">${i+1}</div>`).join('')}
                 </div>
-            </div>`;
-        }).join('');
+            </div>`).join('');
     }
 
-    window.toggleSet = (k) => { window.state.doneSets[k] = !window.state.doneSets[k]; if(window.state.doneSets[k]) startRest(); save(); renderGym(); };
-    function startRest() { 
-        document.getElementById('rest-timer').style.display='block'; 
-        let t = 90; if(window.ti) clearInterval(window.ti);
-        window.ti = setInterval(() => { t--; document.getElementById('t-min').innerText = Math.floor(t/60).toString().padStart(2,'0'); document.getElementById('t-sec').innerText = (t%60).toString().padStart(2,'0'); if(t<=0){clearInterval(window.ti); document.getElementById('rest-timer').style.display='none';} }, 1000);
-    }
+    window.toggleSet = (k) => { window.state.doneSets[k] = !window.state.doneSets[k]; if(window.state.doneSets[k]) startRest(); save(); renderGym(); checkCompletion(); };
+    function startRest() { document.getElementById('rest-timer').style.display='block'; let t = 90; if(window.ti) clearInterval(window.ti); window.ti = setInterval(() => { t--; document.getElementById('t-min').innerText = Math.floor(t/60).toString().padStart(2,'0'); document.getElementById('t-sec').innerText = (t%60).toString().padStart(2,'0'); if(t<=0){clearInterval(window.ti); document.getElementById('rest-timer').style.display='none';} }, 1000); }
+    function checkCompletion() { const done = Object.values(window.state.doneSets).filter(v => v).length; if(done === 10 || done === 16) { window.tab('lab'); window.quickCommand("Chat, terminé mi sesión. ¿Qué toca comer ahora?"); } }
 
-    // PILLAR: TTS (VOZ)
-    window.speakLastResponse = async () => {
-        if(!window.state.lastAIResponse) return;
-        try {
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: window.state.lastAIResponse }] }],
-                    generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } },
-                    model: "gemini-2.5-flash-preview-tts"
-                })
-            });
-            const data = await resp.json();
-            const binary = atob(data.candidates[0].content.parts[0].inlineData.data);
-            const array = new Uint8Array(binary.length);
-            for(let i=0; i<binary.length; i++) array[i] = binary.charCodeAt(i);
-            const url = URL.createObjectURL(new Blob([array], { type: 'audio/wav' }));
-            new Audio(url).play();
-        } catch(e) { console.error("Voz no disponible."); }
+    // PILLAR: SNC TAP TEST
+    let tapCount = 0, tapActive = false;
+    window.runTapTest = () => {
+        if(tapActive) { tapCount++; return; }
+        tapActive = true; tapCount = 0;
+        const msg = document.getElementById('tap-msg'), prog = document.getElementById('tap-progress');
+        msg.innerText = "¡TOCA RÁPIDO!";
+        let time = 0;
+        const int = setInterval(() => {
+            time += 100; prog.style.width = (time/5000)*100 + "%";
+            if(time >= 5000) { clearInterval(int); tapActive = false; window.state.sncScore = tapCount; msg.innerText = `SNC SCORE: ${tapCount}`; prog.style.width = "0%"; quickCommand(`Chat, mi SNC Score hoy fue de ${tapCount}. Analiza mi readiness.`); save(); }
+        }, 100);
     };
 
-    // BIO, PAIN & CLOUD
-    window.togglePain = (m) => {
-        const i = window.state.pain.indexOf(m);
-        if(i > -1) window.state.pain.splice(i,1); else window.state.pain.push(m);
-        save(); renderAll();
-    };
-
-    function updatePainUI() {
-        ['neck', 'chest', 'arms', 'arms2', 'legs', 'legs2'].forEach(id => {
-            const el = document.getElementById(`heat-${id}`);
-            if(el) {
-                const zone = id.includes('arms') ? 'brazos' : id.includes('legs') ? 'piernas' : id === 'neck' ? 'cuello' : 'pecho';
-                el.classList.toggle('sore', window.state.pain.includes(zone));
-            }
-        });
-    }
-
+    // SYNC & BIO
     window.syncCloud = async () => {
         const email = document.getElementById('user-email').value;
         if(email.includes('@')) {
@@ -379,53 +353,43 @@
                 const safe = email.replace(/[.@]/g, '_');
                 const snap = await getDoc(doc(db, 'artifacts', appId, 'public', 'data', 'users', safe));
                 if(snap.exists()) window.state = snap.data();
+                window.state.setupDone = true;
                 save(); renderAll();
-                document.getElementById('cloud-info').innerText = "● CLOUD LINKED";
-            } catch(e) { console.error(e); }
+                document.getElementById('sync-info').innerText = "● SOVEREIGN LINKED";
+            } catch(e) {}
         }
     };
 
-    window.saveMedicion = () => {
-        window.state.weights.body = parseFloat(document.getElementById('log-w').value) || window.state.weights.body;
-        save(); renderAll(); alert("Biometría Actualizada.");
-    };
-
     function renderKPIs() {
-        const w = window.state.weights.body; const f = window.state.weights.fCurr;
+        const w = window.state.weights.body, f = window.state.weights.fCurr, h = window.state.weights.h;
         const musc = (w - (w*(f/100))).toFixed(1);
         document.getElementById('kpi-muscle').innerText = `${musc} kg`;
         document.getElementById('kpi-fat').innerText = `${f} %`;
-        const ffmi = (musc / Math.pow(window.state.weights.h/100, 2)).toFixed(1);
-        document.getElementById('ffmi-val').innerText = `FFMI: ${ffmi}`;
+        document.getElementById('ffmi-val').innerText = `FFMI: ${(musc / Math.pow(h/100, 2)).toFixed(1)}`;
+    }
+
+    async function speakResponse(text) {
+        try {
+            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`, {
+                method: "POST", headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ contents: [{ parts: [{ text: text }] }], generationConfig: { responseModalities: ["AUDIO"], speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: "Kore" } } } }, model: "gemini-2.5-flash-preview-tts" })
+            });
+            const data = await resp.json();
+            const binary = atob(data.candidates[0].content.parts[0].inlineData.data);
+            new Audio(URL.createObjectURL(new Blob([new Uint8Array(binary.split("").map(c => c.charCodeAt(0)))], { type: 'audio/wav' }))).play();
+        } catch(e) {}
     }
 
     // UTILS
     window.tab = (id) => { document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); document.getElementById(id).classList.add('active'); event.currentTarget.classList.add('active'); };
-    window.setEnvironment = (e) => { window.state.env = e; document.getElementById('env-home').classList.toggle('active', e==='home'); document.getElementById('env-street').classList.toggle('active', e==='street'); save(); };
-    window.setProtocol = (p) => { window.state.activeProtocol = p; document.getElementById('btn-base').classList.toggle('active', p==='base'); document.getElementById('btn-custom').classList.toggle('active', p==='custom'); save(); renderGym(); };
-    window.changeWeek = (d) => { window.state.week = Math.max(1, window.state.week + d); save(); renderAll(); };
-    window.handleVisualScan = (e) => {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            window.state.currentBase64 = reader.result.split(',')[1];
-            document.getElementById('scan-preview').innerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;">`;
-            document.getElementById('btn-analyze').style.display = "block";
-        };
-        reader.readAsDataURL(e.target.files[0]);
-    };
-    window.runIAVision = async () => {
-        const box = document.getElementById('chat-box');
-        box.innerHTML += `<div class="chat-bubble coach"><span class='loading-dots'>ESCANEANDO FOTONES</span></div>`;
-        try {
-            const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                method: "POST", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ contents: [{ role: "user", parts: [ { text: "Analiza macros si es comida o simetría muscular si es físico. Sé técnico." }, { inlineData: { mimeType: "image/png", data: window.state.currentBase64 } } ] }] })
-            });
-            const data = await resp.json();
-            box.innerHTML += `<div class="chat-bubble coach">${data.candidates[0].content.parts[0].text}</div>`;
-            box.scrollTop = box.scrollHeight;
-        } catch (e) { box.innerHTML += `<div class="chat-bubble coach">Fallo visual.</div>`; }
-    };
+    window.setProtocol = (p) => { window.state.activeProtocol = p; ['base','run','hyrox','custom'].forEach(id => { if(document.getElementById('btn-'+id)) document.getElementById('btn-'+id).classList.toggle('active', id===p); }); save(); renderGym(); };
+    window.setEnvironment = (e) => { window.state.env = e; document.getElementById('env-home').style.background = e==='home' ? 'white' : 'none'; document.getElementById('env-home').style.color = e==='home' ? 'var(--dark)' : '#94a3b8'; document.getElementById('env-street').style.background = e==='street' ? 'white' : 'none'; document.getElementById('env-street').style.color = e==='street' ? 'var(--dark)' : '#94a3b8'; save(); };
+    window.handleVisualScan = (e) => { const reader = new FileReader(); reader.onloadend = () => { window.state.currentBase64 = reader.result.split(',')[1]; document.getElementById('scan-preview').innerHTML = `<img src="${reader.result}" style="width:100%; height:100%; object-fit:cover;">`; runIAVision(); }; reader.readAsDataURL(e.target.files[0]); };
+    async function runIAVision() { const box = document.getElementById('chat-box'); box.innerHTML += `<div class="chat-bubble coach">IA analizando píxeles híbridos...</div>`; try { const resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ contents: [{ role: "user", parts: [ { text: "Analiza técnica o macros. Sé breve y científico." }, { inlineData: { mimeType: "image/png", data: window.state.currentBase64 } } ] }] }) }); const data = await resp.json(); box.innerHTML += `<div class="chat-bubble coach">${data.candidates[0].content.parts[0].text}</div>`; box.scrollTop = box.scrollHeight; } catch (e) {} };
+    window.toggleSTT = () => { const rec = new (window.SpeechRecognition || window.webkitSpeechRecognition)(); rec.lang = 'es-AR'; const btn = document.getElementById('mic-btn'); btn.classList.add('recording'); rec.onresult = (e) => { document.getElementById('chat-input').value = e.results[0][0].transcript; btn.classList.remove('recording'); window.processChat(); }; rec.onerror = () => btn.classList.remove('recording'); rec.start(); };
+    window.togglePain = (m) => { const i = window.state.pain.indexOf(m); if(i > -1) window.state.pain.splice(i,1); else window.state.pain.push(m); save(); renderAll(); };
+    function updatePainUI() { ['neck', 'chest', 'arms', 'legs'].forEach(id => { const el = document.getElementById(`heat-${id}`); if(el) { const zone = id.includes('arms') ? 'brazos' : id.includes('legs') ? 'piernas' : id === 'neck' ? 'cuello' : 'pecho'; el.classList.toggle('sore', window.state.pain.includes(zone)); } }); }
+    window.saveMedicion = () => { window.state.weights.body = parseFloat(document.getElementById('log-w').value) || window.state.weights.body; save(); renderAll(); alert("Biometría Actualizada."); };
 
 </script>
 </body>
